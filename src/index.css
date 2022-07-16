@@ -11,3 +11,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.chart-heading{
+  color:green;
+  text-align: center;
+}
+
+.text-center{
+  text-align: center;
+}
