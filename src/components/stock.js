@@ -9,6 +9,8 @@ export default class StockPrice extends React.Component{
 			company_name:"",
 			stock:{
 			}
+			// isLoaded: false,
+			// isValid: false
 		}
 	}
 	  handleChange = event => {
@@ -20,16 +22,33 @@ export default class StockPrice extends React.Component{
 
 		axios.get(`http://localhost:8080/` + this.state.company_name).then(res => {
 			console.log(res.data);
-			this.state.stock = res.data;
-			// this.setState({stock: res.data})
+			this.setState({stock: res.data})
+			// this.setState({isLoaded: true})
 			console.log(this.state.stock.price);
+			
       })
 	  }
 
+	//   componentDidMount(){
+	// 	if(this.state.isLoaded){
+	// 		if(this.state.stock.price !== "###"){
+	// 			this.setState({isValid: true})
+	// 		}
+	// 	}
+	//   }
+
+	  
+
 	  render(){
+
+		const stock = this.state.stock;
+		const price = stock.price;
+		const volume = stock.volume;
+
+
 		return(
 			<div>
-				<form onSubmit={this.handleSubmit}>
+				<form className= "text-center" onSubmit={this.handleSubmit}>
 					<label>
 						Company:
 						<input type = "text" name = "name" placeholder="Search a Company" onChange={this.handleChange}/>
@@ -38,7 +57,7 @@ export default class StockPrice extends React.Component{
 						<button type = "submit">Search</button>
 					</div>
 					<div>
-						{this.state.stock.price}
+						{ Object.keys(stock).length === 0? "" : price === "###" ? "Check Company Name" : "CMP: " + price + " and Volume Traded: " + volume}
 					</div>
 				</form>
 				

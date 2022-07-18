@@ -10,27 +10,40 @@ export default class Portfolio extends React.Component{
 			datapoints:[]
 		}
 	}
+
  
    	componentDidMount(){
     	axios.get(`http://localhost:8080/trackportfolio`)
       	.then(res => {
-			console.log(res.data);
+			// console.log(res.data);
 				this.setState({datapoints: res.data})
+				// console.log(this.state.datapoints);
       	})
 	}
 
 	  render(){
+		const data = this.state.datapoints;
+		console.log(data);
+		var difference = 0.00
+		const formatter = new Intl.NumberFormat('en-IN');
+		if(data.length>0){
+			difference = parseFloat(data.at(-1).networth) - parseFloat(data.at(-2).networth);
+			console.log(difference);
+		}
 		return(
 			<div>
+				{/* {console.log(this.state.datapoints)} */}
 				<h1 className="chart-heading">Portfolio Data</h1>
+				<h2 className="text-center">Your Networth: {data.length === 0 ? data : 
+				formatter.format(data.at(-1).networth) + (difference<0 ? " ⮟ " + formatter.format(difference) : " ⮝ " + formatter.format(difference))}</h2>
 				<ResponsiveContainer width = "100%" aspect={3}>
 					<BarChart data={this.state.datapoints} width={500} height={300} margin={{ top:10,right: 300,left:50,bottom:10}}>
 						<XAxis dataKey="date" interval={'preserveStartEnd'}/>
 						<YAxis />
-						<Bar dataKey="netWorth" fill= "green" />
+						<Bar dataKey="networth" fill= "green" width={10}/>
 					</BarChart>
 				</ResponsiveContainer>
-				<table className="table table-stripped">
+				{/* <table className="table table-stripped">
 					<thead>
 						<tr>
 							<td>Date</td>
@@ -43,12 +56,12 @@ export default class Portfolio extends React.Component{
 								day =>
 								<tr key={day.date}>
 									<td>{day.date}</td>
-									<td>{day.netWorth}</td>
+									<td>{day.networth}</td>
 								</tr>
 							)
 						}
 					</tbody>
-				</table>
+				</table> */}
 			</div>
 		)
 
