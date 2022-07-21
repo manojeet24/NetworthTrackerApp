@@ -10,8 +10,8 @@ export default class App extends React.Component {
         <header className='App-header'>
           <h1 className='text-center'>100x Club</h1>
         </header>
-        <Portfolio />
         <StockPrice />
+        <Portfolio />
       </div>
     )
   }
