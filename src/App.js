@@ -1,7 +1,6 @@
 import React from 'react';
 import StockPrice from './components/stock';
 import Portfolio from './components/portfolio';
-import Button from './components/button';
 
 export default class App extends React.Component {
 
