@@ -13,7 +13,7 @@ export default class Portfolio extends React.Component{
 
  
    	componentDidMount(){
-    	axios.get(`http://localhost:8080/trackportfolio`)
+    	axios.get(`https://valuetracker.herokuapp.com/trackportfolio`)
       	.then(res => {
 			// console.log(res.data);
 				this.setState({datapoints: res.data})
