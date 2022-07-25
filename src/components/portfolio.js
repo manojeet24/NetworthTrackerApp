@@ -13,7 +13,7 @@ export default class Portfolio extends React.Component{
 
  
    	componentDidMount(){
-    	axios.get(`https://valuetracker.herokuapp.com/trackportfolio`)
+    	axios.get(`https://valuetracker.herokuapp.com/networthlist`)
       	.then(res => {
 			// console.log(res.data);
 				this.setState({datapoints: res.data})
@@ -33,7 +33,7 @@ export default class Portfolio extends React.Component{
 		return(
 			<div>
 				{/* {console.log(this.state.datapoints)} */}
-				<h1 className="chart-heading">Portfolio Data</h1>
+				<h1 className="chart-heading">Portfolio Chart</h1>
 				<h2 className="text-center">Your Networth: {data.length === 0 ? data : 
 				formatter.format(data.at(-1).networth) + (difference<0 ? " ⮟ " + formatter.format(difference) : " ⮝ " + formatter.format(difference))}</h2>
 				<ResponsiveContainer width = "100%" aspect={3}>

@@ -27,6 +27,30 @@ code {
   padding: 10px;
 }
 
+#loader{
+  margin: auto;
+  margin-left: 35%;
+  margin-right: 20%;
+  margin-top: 10%;
+  
+}
+
+/*table*/
+/* thead th:last-child{
+  width: 900px;
+} */
+
+thead tr,tbody { display: block;}
+thead th{
+  text-justify: auto;
+}
+
+tbody{
+  height: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 /* button */
 .btn-ticker{
   text-decoration: none;

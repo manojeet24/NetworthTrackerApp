@@ -1,21 +1,62 @@
 import React from "react";
+import axios from "axios";
+import { ResponsiveContainer, PieChart, Pie,LineChart, Line, XAxis, YAxis, BarChart, Bar, CartesianGrid, Tooltip } from "recharts";
 
 export default class StockPrice extends React.Component{
 
+	constructor(prop){
+		super(prop)
+		this.state = {
+			datapoints:[]
+		}
+	}
+
+	
+
 	componentDidMount(){
+
     	const script = document.createElement("script");
 		script.src = "https://www.gateway-tt.in/assets/embed.js";
 		script.async = true;
 
 		document.body.appendChild(script)
+
+		axios.get(`https://valuetracker.herokuapp.com/portfoliolist`)
+      	.then(res => {
+			console.log(res.data);
+			this.setState({datapoints: res.data})
+			// console.log(this.state.datapoints);
+      	})
 		
 	}
 	  render(){
-		const data = '<p style = "margin: auto;width: 32%;padding: 10px;" class="sc-embed" data-width="500px" data-orders="%5B%7B%22quantity%22%3A10%2C%22ticker%22%3A%22INFOBEAN%22%7D%5D" data-cardsize="big" data-withtt="false" data-withsearch="true" style="width:500px;min-height:300px;display:flex;align-items:center;justify-content:center"> <strong>loading widget to trade INFOBEAN</strong> </p> <script async src="https://www.gateway-tt.in/assets/embed.js"></script>';
+		// const datapoints = this.state.datapoints;
+		// if(datapoints.length>0){
+		// 	console.log(datapoints);
+		// }
+		const data = '<div style = "float: left; margin:auto;width: 50%;padding: 30px;" class="sc-embed" data-width="500px" data-orders="%5B%7B%22quantity%22%3A10%2C%22ticker%22%3A%22INFOBEAN%22%7D%5D" data-cardsize="big" data-withtt="false" data-withsearch="true" style="width:500px;min-height:300px;display:flex;align-items:center;justify-content:center"> <strong>loading widget to trade INFOBEAN</strong> </div> <script async src="https://www.gateway-tt.in/assets/embed.js"></script>';
 		return(
 			<div>
-				 <a className="btn-ticker" href="https://valuetracker.herokuapp.com/tickerlist">Get Ticker List</a>
-				<div  dangerouslySetInnerHTML = {{__html: data}}>
+				<a className="btn-ticker" href="https://valuetracker.herokuapp.com/tickerlist">Get Ticker List</a>
+				<div>
+					<div  dangerouslySetInnerHTML = {{__html: data}}>
+					</div>
+					<div>
+						<h2>Portfolio Holdings</h2>
+						<table>
+						<tbody>
+							{
+								this.state.datapoints.map(
+									stock =>
+									<tr key={stock._id}>
+										<td>{stock.company_name}</td>
+										<td>{stock.quantity}</td>
+									</tr>
+								)
+							}
+						</tbody>
+						</table>
+					</div>
 				</div>		
 			</div>
 		)
