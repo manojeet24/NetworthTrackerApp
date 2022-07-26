@@ -27,12 +27,26 @@ code {
   padding: 10px;
 }
 
+
 #loader{
   margin: auto;
   margin-left: 35%;
   margin-right: 20%;
   margin-top: 10%;
   
+}
+
+.frontpage{
+  float: left;
+  width: 100%;
+}
+
+.frontpageImage{
+  float: left;
+  padding-right: 30px;
+  padding-top: 30px;
+  padding-left: 20px;
+  padding-bottom: 40px;
 }
 
 /*table*/

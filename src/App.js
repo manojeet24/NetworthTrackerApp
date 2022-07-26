@@ -26,7 +26,7 @@ export default class App extends React.Component {
       {this.state.render===false?<div></div>:
       <div className="App">
         <header className='App-header'>
-          <h1 className='text-center'>Networth Tracker</h1>
+          <h1 className='text-center'>Portfolio Tracker</h1>
         </header>
         <StockPrice />
         {/* <Portoliolist /> */}

@@ -33,8 +33,8 @@ export default class Portfolio extends React.Component{
 		return(
 			<div>
 				{/* {console.log(this.state.datapoints)} */}
-				<h1 className="chart-heading">Portfolio Chart</h1>
-				<h2 className="text-center">Your Networth: {data.length === 0 ? data : 
+				<h1 className="chart-heading">Portfolio Value</h1>
+				<h2 className="text-center">Current Value: {data.length === 0 ? data : 
 				formatter.format(data.at(-1).networth) + (difference<0 ? " ⮟ " + formatter.format(difference) : " ⮝ " + formatter.format(difference))}</h2>
 				<ResponsiveContainer width = "100%" aspect={3}>
 					<BarChart data={this.state.datapoints} width={500} height={300}
