@@ -38,7 +38,7 @@ export default class StockPrice extends React.Component{
 		const data = '<div class="sc-embed" data-orders="%5B%7B%22quantity%22%3A10%2C%22ticker%22%3A%22INFOBEAN%22%7D%5D" data-cardsize="big" data-withtt="false" data-withsearch="true" style="width:500px;min-height:300px;display:flex;align-items:center;justify-content:center"> <strong>loading widget to trade INFOBEAN</strong> </div> <script async src="https://www.gateway-tt.in/assets/embed.js"></script>';
 		return(
 			<div>
-				<a className="btn-ticker" href="https://valuetracker.herokuapp.com/tickerlist">Get Ticker List</a>
+				<a className="btn-ticker" href="https://valuetracker.herokuapp.com/tickerlist">Tickers</a>
 				<div className="frontpage">
 					<div  className = "frontpageImage" dangerouslySetInnerHTML = {{__html: data}}>
 					</div>
@@ -55,6 +55,7 @@ export default class StockPrice extends React.Component{
 									<tr key={stock._id}>
 										<td>{stock.company_name}</td>
 										<td>{stock.quantity}</td>
+										<td>{stock.buy_price}</td>
 									</tr>
 								)
 							}

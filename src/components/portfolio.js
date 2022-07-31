@@ -36,16 +36,17 @@ export default class Portfolio extends React.Component{
 				<h1 className="chart-heading">Portfolio Value</h1>
 				<h2 className="text-center">Current Value: {data.length === 0 ? data : 
 				formatter.format(data.at(-1).networth) + (difference<0 ? " ⮟ " + formatter.format(difference) : " ⮝ " + formatter.format(difference))}</h2>
-				<ResponsiveContainer width = "100%" aspect={3}>
-					<BarChart data={this.state.datapoints} width={500} height={300}
-					margin={{ top:10,right: 300,left:50,bottom:10}}
+				<ResponsiveContainer width = "99%" aspect={3}>
+					<BarChart data={this.state.datapoints}  width={50} height={300}
+					margin={{ top:10,right: 250,left:50,bottom:10}}
 					barSize = {40}
 				>
 						<CartesianGrid strokeDasharray="3 3" />
 						<Tooltip />
 						<XAxis dataKey="date" interval={'preserveStartEnd'}/>
 						<YAxis tickFormatter={(value) => formatter.format(value)}/>
-						<Bar dataKey="networth" fill= "lightgreen" width={40} background={{ fill: '#eee' }}/>
+						<Bar dataKey="invested" fill="#8884d8" background={{ fill: '#eee' }}/>
+						<Bar dataKey="networth" fill= "lightgreen" width={5} background={{ fill: '#eee' }}/>
 					</BarChart>
 				</ResponsiveContainer>
 				{/* <table className="table table-stripped">

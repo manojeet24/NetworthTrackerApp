@@ -1,6 +1,7 @@
 import React from 'react';
 import StockPrice from './components/stock';
 import Portfolio from './components/portfolio';
+import Logos from './components/logos'
 
 export default class App extends React.Component {
 
@@ -28,8 +29,9 @@ export default class App extends React.Component {
         <header className='App-header'>
           <h1 className='text-center'>Portfolio Tracker</h1>
         </header>
+        <Logos />
         <StockPrice />
-        {/* <Portoliolist /> */}
+        {/* <Logos /> */}
         <Portfolio />
       </div>}
     </div>
