@@ -32,6 +32,7 @@ export default class Portfolio extends React.Component{
 		const data = this.state.datapoints;
 		console.log(data);
 		var difference = 0.00
+		var profit = 0
 		const formatter = new Intl.NumberFormat('en-IN');
 		const DataFormater = (number) => {
 			if(number > 100000000){
@@ -50,6 +51,7 @@ export default class Portfolio extends React.Component{
 		}
 		if(data.length>0){
 			difference = parseFloat(data.at(-1).networth) - parseFloat(data.at(-2).networth);
+			profit = data.at(-1).networth-data.at(-1).invested
 			console.log("Day's Volatility:" + difference);
 		}
 		return(
@@ -58,8 +60,10 @@ export default class Portfolio extends React.Component{
 				<h1 className="chart-heading">Portfolio Value</h1>
 				<h2 className="text-center">Current Value: {data.length === 0 ? data : 
 				formatter.format(data.at(-1).networth) + (difference<0 ? " ⮟ " + formatter.format(difference) : " ⮝ " + formatter.format(difference))}</h2>
+				<h2 className="text-right"> {data.length === 0 ? data : "Profit: ₹ " +
+				formatter.format(profit)}</h2> 
 				<div>
-					{this.state.datapoints.length>0 && 
+					{this.state.datapoints.length > 0 && 
 					<ResponsiveContainer width = "99%" aspect={3}>
 					<LineChart
 						width={500}

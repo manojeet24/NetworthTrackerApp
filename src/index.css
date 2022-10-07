@@ -21,6 +21,11 @@ code {
   text-align: center;
 }
 
+.text-right{
+  text-align: right;
+  padding-right: 30px;
+}
+
 .center {
   margin: auto;
   width: 50%;
