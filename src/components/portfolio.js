@@ -1,8 +1,16 @@
+import { type } from "@testing-library/user-event/dist/type";
 import axios from "axios";
 import React from "react";
-import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, BarChart, Bar, CartesianGrid, Tooltip } from "recharts";
+import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, BarChart, Bar, CartesianGrid, Tooltip, Legend } from "recharts";
+import {format, parseISO, subDays} from "date-fns";
 
 export default class Portfolio extends React.Component{
+
+	async getData() {
+        const res = await axios('https://valuetracker.herokuapp.com/networthlist');
+		// console.log("Result: " + res.data)
+        return await res.data;
+    }
 
 	constructor(props){
 		super(props)
@@ -13,12 +21,11 @@ export default class Portfolio extends React.Component{
 
  
    	componentDidMount(){
-    	axios.get(`https://valuetracker.herokuapp.com/networthlist`)
-      	.then(res => {
-			// console.log(res.data);
-				this.setState({datapoints: res.data})
-				// console.log(this.state.datapoints);
-      	})
+    	if (this.state.datapoints.length === 0) {
+			// console.log("Inside ComponentDidMount")
+            this.getData().then(datapoints => this.setState({datapoints}))
+                          .catch(err => { console.log("Error " + err)});
+        }
 	}
 
 	  render(){
@@ -26,48 +33,63 @@ export default class Portfolio extends React.Component{
 		console.log(data);
 		var difference = 0.00
 		const formatter = new Intl.NumberFormat('en-IN');
+		const DataFormater = (number) => {
+			if(number > 100000000){
+			  return (number/100000000).toString() + 'Cr';
+			}else if(number > 1000000){
+			  return (number/100000).toString() + 'L';
+			}else if(number > 100000){
+			  return (number/100000).toString() + 'L';
+			}else if(number > 10000){
+			  return (number/10000).toString() + 'K';
+			}else if(number > 1000){
+			  return (number/1000).toString() + 'K';
+			}else{
+			  return number.toString();
+			}
+		}
 		if(data.length>0){
 			difference = parseFloat(data.at(-1).networth) - parseFloat(data.at(-2).networth);
-			console.log(difference);
+			console.log("Day's Volatility:" + difference);
 		}
 		return(
 			<div>
-				{/* {console.log(this.state.datapoints)} */}
+				{console.log(this.state.datapoints)}
 				<h1 className="chart-heading">Portfolio Value</h1>
 				<h2 className="text-center">Current Value: {data.length === 0 ? data : 
 				formatter.format(data.at(-1).networth) + (difference<0 ? " ⮟ " + formatter.format(difference) : " ⮝ " + formatter.format(difference))}</h2>
-				<ResponsiveContainer width = "99%" aspect={3}>
-					<BarChart data={this.state.datapoints}  width={50} height={300}
-					margin={{ top:10,right: 250,left:50,bottom:10}}
-					barSize = {40}
-				>
-						<CartesianGrid strokeDasharray="3 3" />
-						<Tooltip />
-						<XAxis dataKey="date" interval={'preserveStartEnd'}/>
-						<YAxis tickFormatter={(value) => formatter.format(value)}/>
-						<Bar dataKey="invested" fill="#8884d8" background={{ fill: '#eee' }}/>
-						<Bar dataKey="networth" fill= "lightgreen" width={5} background={{ fill: '#eee' }}/>
-					</BarChart>
-				</ResponsiveContainer>
-				{/* <table className="table table-stripped">
-					<thead>
-						<tr>
-							<td>Date</td>
-							<td>Networth</td>
-						</tr>
-					</thead>
-					<tbody>
-						{
-							this.state.datapoints.map(
-								day =>
-								<tr key={day.date}>
-									<td>{day.date}</td>
-									<td>{day.networth}</td>
-								</tr>
-							)
-						}
-					</tbody>
-				</table> */}
+				<div>
+					{this.state.datapoints.length>0 && 
+					<ResponsiveContainer width = "99%" aspect={3}>
+					<LineChart
+						width={500}
+						height={400}
+						data={data}
+						margin={{
+							top: 10,
+							right: 10,
+							left: 10,
+							bottom: 10,
+						}}
+						>
+						<CartesianGrid strokeDasharray="5 1 2" vertical={false}/>
+						<Tooltip cursor={{ stroke: "orange" , strokeWidth: 1 }}/>
+						<XAxis dataKey= "date" tickLine={false} tickFormatter={str => {
+							const date = parseISO(str);
+							// console.log("Date" + date)
+							if(date.getDate() !=null && date.getDate() % 1 === 0){
+								return format(date, "MMM dd")
+							}
+							return ""
+						}}
+						/>
+						<YAxis type = "string" domain={['dataMin', 'auto']} tickFormatter={(value) => DataFormater(value)} allowDataOverflow={true} tickLine={false}/>
+						<Legend verticalAlign="top" height={36} iconType = "rect" />
+						<Line dot={false} type="basis" dataKey="invested" stroke="#8884d8" strokeWidth={2} activeDot={{ r: 8 }} />
+						<Line dot={false}type="basis" dataKey="networth" stroke="#82ca9d" strokeWidth={2} activeDot={{ r: 8 }}  />
+						</LineChart>
+						</ResponsiveContainer>}
+				</div>
 			</div>
 		)
 
