@@ -22,7 +22,7 @@ export default class StockPrice extends React.Component{
 
 		document.body.appendChild(script)
 
-		axios.get(`https://valuetracker.herokuapp.com/portfoliolist`)
+		axios.get(`http://localhost:8080/portfoliolist`)
       	.then(res => {
 			console.log(res.data);
 			this.setState({datapoints: res.data})

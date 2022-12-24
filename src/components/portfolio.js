@@ -7,7 +7,7 @@ import {format, parseISO, subDays} from "date-fns";
 export default class Portfolio extends React.Component{
 
 	async getData() {
-        const res = await axios('https://valuetracker.herokuapp.com/networthlist');
+        const res = await axios('http://localhost:8080/networthlist');
 		// console.log("Result: " + res.data)
         return await res.data;
     }
@@ -64,17 +64,9 @@ export default class Portfolio extends React.Component{
 				formatter.format(profit)}</h2> 
 				<div>
 					{this.state.datapoints.length > 0 && 
-					<ResponsiveContainer width = "99%" aspect={3}>
+					<ResponsiveContainer width = "95%" height = {300} padding = {0} aspect={3}>
 					<LineChart
-						width={500}
-						height={400}
 						data={data}
-						margin={{
-							top: 10,
-							right: 10,
-							left: 10,
-							bottom: 10,
-						}}
 						>
 						<CartesianGrid strokeDasharray="5 1 2" vertical={false}/>
 						<Tooltip cursor={{ stroke: "orange" , strokeWidth: 1 }}/>
@@ -87,8 +79,13 @@ export default class Portfolio extends React.Component{
 							return ""
 						}}
 						/>
-						<YAxis type = "string" domain={['dataMin', 'auto']} tickFormatter={(value) => DataFormater(value)} allowDataOverflow={true} tickLine={false}/>
-						<Legend verticalAlign="top" height={36} iconType = "rect" />
+						<YAxis type="number" 
+						dataKey={(data)=>parseInt(data.networth)}
+						domain={['auto', 'dataMax+1000']}
+						tickFormatter={(value) => DataFormater(value)}
+						allowDataOverflow={true}/>
+						{/* <YAxis type = "string" domain={['dataMin', 'dataMax + 100000000']} tickFormatter={(value) => DataFormater(value)} allowDataOverflow={true} tickLine={false}/> */}
+						<Legend verticalAlign="bottom" height={36} iconType = "rect" />
 						<Line dot={false} type="basis" dataKey="invested" stroke="#8884d8" strokeWidth={2} activeDot={{ r: 8 }} />
 						<Line dot={false}type="basis" dataKey="networth" stroke="#82ca9d" strokeWidth={2} activeDot={{ r: 8 }}  />
 						</LineChart>

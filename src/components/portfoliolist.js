@@ -4,7 +4,7 @@ import axios from "axios";
 export default class Portoliolist extends React.Component{
 
     componentDidMount(){
-    	axios.get(`https://valuetracker.herokuapp.com/portfoliolist`)
+    	axios.get(`http://localhost:8080/portfoliolist`)
       	.then(res => {
 			console.log(res.data);
 				// this.setState({datapoints: res.data})
